@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Register</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:#f5f5f5;
+}
+
+.register-box{
+width:350px;
+background:#fff;
+padding:30px;
+border-radius:10px;
+box-shadow:0 5px 15px rgba(0,0,0,.2);
+}
+
+h2{
+text-align:center;
+margin-bottom:20px;
+color:#088178;
+}
+
+input{
+width:100%;
+padding:12px;
+margin:10px 0;
+border:1px solid #ccc;
+border-radius:5px;
+}
+
+button{
+width:100%;
+padding:12px;
+border:none;
+background:#088178;
+color:#fff;
+font-size:16px;
+cursor:pointer;
+border-radius:5px;
+}
+
+button:hover{
+background:#066c67;
+}
+
+p{
+text-align:center;
+margin-top:15px;
+}
+
+a{
+color:#088178;
+text-decoration:none;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="register-box">
+
+<h2>Create Account</h2>
+
+<form id="registerForm">
+
+<input
+type="text"
+id="name"
+placeholder="Enter Name"
+required>
+
+<input
+type="email"
+id="email"
+placeholder="Enter Email"
+required>
+
+<input
+type="password"
+id="password"
+placeholder="Enter Password"
+required>
+
+<button type="submit">
+Register
+</button>
+
+</form>
+
+<p>
+Already have an account?
+<a href="login.html">Login</a>
+</p>
+
+</div>
+
+<script>
+
+document.getElementById("registerForm").addEventListener("submit",async(e)=>{
+
+e.preventDefault();
+
+const name=document.getElementById("name").value;
+const email=document.getElementById("email").value;
+const password=document.getElementById("password").value;
+
+const res=await fetch("http://localhost:8002/users/register",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+name,
+email,
+password
+})
+
+});
+
+const data=await res.json();
+
+alert(data.message);
+
+if(data.user){
+window.location.href="login.html";
+}
+
+});
+
+</script>
+
+</body>
+</html>

@@ -1,6 +1,7 @@
 require("dotenv").config();
 
 const express = require("express");
+const cors = require("cors");
 const app = express();
 
 const dns = require("node:dns");
@@ -12,7 +13,7 @@ const productRoutes = require("./routes/productRoutes");
 const userRoutes = require("./routes/userRoutes");
 const cartRoutes = require("./routes/cartRoutes");
 // const orderRoutes = require("./routes/orderRoutes"); // Baad me banayenge
-
+app.use(cors());
 app.use(express.json());
 
 connectDB();

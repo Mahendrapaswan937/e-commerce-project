@@ -1,3 +1,10 @@
+if(
+    window.location.pathname.includes("shop.html") &&
+    !localStorage.getItem("isLogin")
+){
+    window.location.href="login.html";
+}
+
 const bar = document.getElementById('bar');
 const close = document.getElementById('close');
 const nav = document.getElementById("navbar");
@@ -56,9 +63,11 @@ async function loadProducts() {
 
                 </div>
 
-                <a href="#">
-                    <i class="ri-shopping-bag-line line"></i>
-                </a>
+                
+
+                <a href="#" onclick="addToCart('${product._id}')">
+                 <i class="ri-shopping-bag-line line"></i>
+           </a>
 
             </div>
 
@@ -71,6 +80,39 @@ async function loadProducts() {
     }
 }
 
+
+async function addToCart(productId) {
+    try {
+        const res = await fetch("http://localhost:8002/cart", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                productId: productId,
+                quantity: 1
+            })
+        });
+
+        const data = await res.json();
+        alert(data.message);
+
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+function logout(){
+
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    localStorage.removeItem("isLogin");
+
+    alert("Logout Successful");
+
+    window.location.href="login.html";
+
+}
 // ================= Products =================
 
 // const productContainer = document.getElementById("productContainer");
