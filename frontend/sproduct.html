@@ -34,49 +34,99 @@
 </section>
 
 <section id="prodetails" class="section-p1">
+
+    <!-- LEFT SIDE -->
     <div class="single-pro-image">
-        <img src="https://i.pinimg.com/736x/85/f5/55/85f555b6e8a090a75d0312aa8cfa2a16.jpg" width="90%" id="MainImg" alt="">
 
+        <!-- Main Product Image -->
+        <img
+            src=""
+            width="90%"
+            id="productImage"
+            alt="Product Image"
+        >
+
+        <!-- Small Images -->
         <div class="small-img-group">
+
             <div class="small-img-col">
-                <img src="https://i.pinimg.com/736x/02/97/98/0297984c52d1e2b26c6d815ce206433f.jpg" width="100%" class="small-img" alt="">
+                <img
+                    src=""
+                    width="100%"
+                    class="small-img"
+                    alt=""
+                >
             </div>
 
-          <div class="small-img-col">
-                <img src="https://i.pinimg.com/736x/34/99/09/349909c6e42d007d2cd6160c296f8711.jpg" width="100%" class="small-img" alt="">
+            <div class="small-img-col">
+                <img
+                    src=""
+                    width="100%"
+                    class="small-img"
+                    alt=""
+                >
             </div>
 
-          <div class="small-img-col">
-                <img src="https://i.pinimg.com/736x/bc/dd/34/bcdd34f8b7a7d1dec9bd524f11569a4d.jpg" width="100%" class="small-img" alt="">
+            <div class="small-img-col">
+                <img
+                    src=""
+                    width="100%"
+                    class="small-img"
+                    alt=""
+                >
             </div>
 
-          <div class="small-img-col">
-                <img src="https://i.pinimg.com/736x/95/13/eb/9513eb18356e5f94b5cc8b6840a7078f.jpg" width="100%" class="small-img" alt="">
+            <div class="small-img-col">
+                <img
+                    src=""
+                    width="100%"
+                    class="small-img"
+                    alt=""
+                >
             </div>
-
-
-
-
 
         </div>
 
     </div>
-<div class="single-pro-details">
-    <h6>Home / T-shirt</h6>
-    <h4>Men's faishion T-shirt</h4>
-    <h2>₹499</h2>
-<select>
-    <option value="">Select Size</option>
-    <option value="S">Small</option>
-    <option value="M">Medium</option>
-    <option value="L">Large</option>
-    <option value="XL">XL</option>
-    <option value="XXL">XXL</option>
-</select>
-<input type="number" value="1">
-<button class="normal">Add to Cart</button>
-<h4>Product Details</h4>
-<span><p>
+
+
+    <!-- RIGHT SIDE -->
+    <div class="single-pro-details">
+
+        <h6>Home / T-shirt</h6>
+
+        <h4 id="productName">Product Name</h4>
+
+        <h2 id="productPrice">₹0</h2>
+
+        <select>
+            <option>Select Size</option>
+            <option>XL</option>
+            <option>XXL</option>
+            <option>Small</option>
+            <option>Large</option>
+        </select>
+
+        <input
+            type="number"
+            value="1"
+            min="1"
+            id="productQuantity"
+        >
+
+        <button
+            class="normal"
+            id="addToCartBtn"
+        >
+            Add to Cart
+        </button>
+
+        <h4>Product Details</h4>
+
+ 
+
+ 
+<span><p id="productDescription">
     This premium men's T-shirt is crafted from 100% soft cotton for all-day comfort.
     It features a modern fit, breathable fabric, and a stylish design suitable for every occasion.
     Perfect for casual wear, daily use, and easy to pair with jeans or shorts.
@@ -92,8 +142,8 @@
     <p>summer colletion new modern design</p>
 
   
-    <div class="pro-container">
-        <div class="pro">
+    <div class="pro-container" >
+        <div class="pro" onclick="openProduct('${product._id}')">
             <img src="https://i.pinimg.com/1200x/70/3e/44/703e4433d62fbc4025506282a2086d52.jpg" alt="">
             <div class="des">
                 <span>adidas</span>
@@ -255,7 +305,42 @@
     MainImg.src = smallimg[3].src;
    }
 </script>
+<script>
+const params = new URLSearchParams(window.location.search);
+const productId = params.get("id");
 
+async function loadProduct() {
+
+    try {
+
+        const response = await fetch(
+            `http://localhost:8002/products/${productId}`
+        );
+
+        const product = await response.json();
+
+        document.getElementById("productImage").src = product.image;
+        document.getElementById("productName").textContent = product.name;
+        document.getElementById("productPrice").textContent = `₹${product.price}`;
+        document.getElementById("productDescription").textContent =
+            product.description;
+            const thumbnails = document.querySelectorAll(".small-img");
+
+thumbnails.forEach(img => {
+    img.src = product.image;
+});
+
+    } catch (error) {
+
+        console.error("Product loading error:", error);
+
+    }
+
+    
+}
+
+loadProduct();
+</script>
 <script src="script.js"></script>
 </body>
 </html>

@@ -46,74 +46,67 @@
 
  
 <section id="blog">
-    <div class="blog-box">
-        <div class="blog-img">
-            <img src="https://i.pinimg.com/736x/0a/a8/a8/0aa8a808bfab3e77dbab8586cfba656f.jpg" alt="">
-        </div>
-        <div class="blog-details">
-            <h4>The Cotton-Royality Woman-girl sharee</h4>
-            <p>Discover the latest fashion trends, styling tips, and seasonal collections all in one place. Stay updated with new arrivals, exclusive offers, and expert fashion advice. MY Shop.</p>
-            <a href="#">CONTINUE READING</a>
-        </div>
-        <H1>13/03</H1>
-    </div>
-
-     <div class="blog-box">
-        <div class="blog-img">
-            <img src="https://i.pinimg.com/736x/05/ae/ea/05aeeac389f4fdb0f3270351a5a7e3f7.jpg" alt="">
-        </div>
-        <div class="blog-details">
-            <h4>The Cotton-Royality Woman-girl sharee</h4>
-            <p>Discover the latest fashion trends, styling tips, and seasonal collections all in one place. Stay updated with new arrivals, exclusive offers, and expert fashion advice. MY Shop.</p>
-            <a href="#">CONTINUE READING</a>
-        </div>
-        <H1>13/03</H1>
-    </div>
-
-     <div class="blog-box">
-        <div class="blog-img">
-            <img src="https://i.pinimg.com/736x/fb/68/23/fb68232e0d449dbc505fa52327da92c0.jpg" alt="">
-        </div>
-        <div class="blog-details">
-            <h4>The Cotton-Royality Woman-girl sharee</h4>
-            <p>Discover the latest fashion trends, styling tips, and seasonal collections all in one place. Stay updated with new arrivals, exclusive offers, and expert fashion advice. MY Shop.</p>
-            <a href="#">CONTINUE READING</a>
-        </div>
-        <H1>13/03</H1>
-    </div>
-
-     <div class="blog-box">
-        <div class="blog-img">
-            <img src=" https://i.pinimg.com/736x/0b/49/6d/0b496d2524e4985c1eaff1720d33f224.jpg" alt="">
-        </div>
-        <div class="blog-details">
-            <h4>The Cotton-Royality Woman-girl sharee</h4>
-            <p>Discover the latest fashion trends, styling tips, and seasonal collections all in one place. Stay updated with new arrivals, exclusive offers, and expert fashion advice. MY Shop.</p>
-            <a href="#">CONTINUE READING</a>
-        </div>
-        <H1>13/03</H1>
-    </div>
-
-     <div class="blog-box">
-        <div class="blog-img">
-            <img src=" https://i.pinimg.com/1200x/54/47/99/5447994f4bbe2fd0f924b33f7d9fe497.jpg" alt="">
-        </div>
-        <div class="blog-details">
-            <h4>The Cotton-Royality Woman-girl sharee</h4>
-            <p>Discover the latest fashion trends, styling tips, and seasonal collections all in one place. Stay updated with new arrivals, exclusive offers, and expert fashion advice. MY Shop.</p>
-            <a href="#">CONTINUE READING</a>
-        </div>
-        <H1>13/03</H1>
-    </div>
+    <div id="blog-container"></div>
 </section>
 
-    <section id="pagination" class="section-p1">
-
+<section id="pagination" class="section-p1">
     <a href="#">1</a>
     <a href="#">2</a>
     <a href="#"><i class="ri-arrow-right-line"></i></a>
+</section>
 
-    </section>
+<script>
+    const blogContainer = document.getElementById("blog-container");
+
+    async function loadBlogs() {
+        try {
+            const response = await fetch("http://localhost:8002/blogs");
+
+            if (!response.ok) {
+                throw new Error("Failed to fetch blogs");
+            }
+
+            const blogs = await response.json();
+
+            blogContainer.innerHTML = "";
+
+            blogs.forEach(blog => {
+                const blogBox = document.createElement("div");
+
+                blogBox.className = "blog-box";
+
+                blogBox.innerHTML = `
+                    <div class="blog-img">
+                        <img src="${blog.image}" alt="${blog.title}">
+                    </div>
+
+                    <div class="blog-details">
+                        <h4>${blog.title}</h4>
+
+                        <p>${blog.description}</p>
+
+                        <a href="#">CONTINUE READING</a>
+                    </div>
+
+                    <h1>${blog.date}</h1>
+                `;
+
+                blogContainer.appendChild(blogBox);
+            });
+
+        } catch (error) {
+            console.error("Blog loading error:", error);
+
+            blogContainer.innerHTML = `
+                <p>Unable to load blogs.</p>
+            `;
+        }
+    }
+
+    loadBlogs();
+</script>
+
+
 
 
 <section id="newsletter" class="section-p1 section-m1">
